@@ -1,6 +1,16 @@
 
 #include <stdio.h>
 
+/* 
+Red (!)
+Blue (?)
+Green (*)
+Yellow (^)
+Pink (&)
+Purple (~)
+Mustard (todo)
+Grey (//)
+*/
 
 
 void callocMalloc();
@@ -35,3 +45,4 @@ Student dynamicStruct(Student *student, int num)
 {
     student = calloc(num, sizeof(Student));
 }
+
