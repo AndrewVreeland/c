@@ -342,8 +342,16 @@ Kennel *getKennelByCat(CatStore *s, Cat *cat)
 }
 int getCatPosi(Kennel *home, Cat *cat)
 {
+    for(int i = 0; i < home ->occupancy; i++)
+    {
+        if(home ->cats[i] == cat)
+        {
+            return i;
+        }
 
-    /*
+    }
+    return -1;
+    /*  
 
     !   Preconditions:
     *   • home is a valid Kennel pointer
@@ -356,7 +364,17 @@ int getCatPosi(Kennel *home, Cat *cat)
 }
 Cat *getCatByName(CatStore *s, char *catName)
 {
-
+    for (int i = 0; i < s ->numKenels; i ++) // looping through kenels
+    {
+        for (int j = 0; j < s ->kennels[i].occupancy; j++) // looping through each kennel by their occupancy
+        {
+            if (strcmp(s ->kennels[i].cats[j]->name, catName) ==0) // string compares the name at each index by the search
+            {
+                return s ->kennels[i].cats[j] ->name; // returns name if found
+            }
+        }
+    }
+    return NULL; // returns null if not
     /*
 
     !   Preconditions:
@@ -369,7 +387,24 @@ Cat *getCatByName(CatStore *s, char *catName)
 }
 void removeCatFromKennel(Kennel *k, Cat *cat)
 {
+    int indx = -1;
 
+        for(int i =0; i < k ->occupancy; i++)
+        {
+            if(cat == k ->cats[i])
+            {
+                indx = i;
+            }
+        }
+
+        if (indx != -1)
+        {
+            for(int i =indx; i < k ->occupancy; i++)
+            {
+                k ->cats[i] = k->cats[i+1];
+            }
+            k ->occupancy --;
+        }
     /*
 
 !    Preconditions:
@@ -382,8 +417,30 @@ void removeCatFromKennel(Kennel *k, Cat *cat)
 
     */
 }
+void querie1 (CatStore *s, char **dictionary, char* breedType, int numOfBreeds)
+{       
+
+        for(int i = 0; i < s ->numKenels; i++)
+        {
+            for(int j =0; j< s->kennels[i].occupancy; j++) // loops though the cats at each kennel
+            {
+                if (strcmp(s->kennels[i].cats[j]->breed, breedType)==0) // checks each cat's breed to the breed type
+                { // if valid the function then prints the required values here  
+                    printf("%s %f %d %s %s\n",
+                    s->kennels[i].cats[j]->name,
+                    s->kennels[i].cats[j]->weight,
+                    s->kennels[i].cats[j]->age,
+                    s->kennels[i].location,
+                    STATUS_CAT[s->kennels[i].cats[j]->status]
+                    ); // Coco 23.20 14 Auburndale AVAILABLE
+                }
+            }
+        }
+    
+}
 void runQueries(CatStore *s, char **dictionary, int breedCount, int numQueries)
 {
+
 
     /*
 
@@ -401,7 +458,8 @@ void runQueries(CatStore *s, char **dictionary, int breedCount, int numQueries)
     */
 }
 void freeBreeds(char **dictionary, int breedCount)
-{
+{  
+
 
     /*
 
