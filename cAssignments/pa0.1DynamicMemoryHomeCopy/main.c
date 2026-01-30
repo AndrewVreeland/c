@@ -9,7 +9,7 @@ typedef struct student
     int total;
     int *quizzes; // this will require DMA to store quizzes
 } student;
-    
+
 student **readCourses(int *numOfCourses, int *numOfStudents, int *numOfQuizes);
 void release_memroy(student **student, int numOfCourses, int numOfStudents, int numOfQuizes);
 
@@ -29,10 +29,8 @@ int main()
 
 student **readCourses(int *numOfCourses, int *numOfStudents, int *numOfQuizes)
 {
-    scanf("%d,%d, %d", numOfCourses, numOfStudents, numOfQuizes);
 
     student **courses = malloc(sizeof(*courses) * *numOfCourses);
-    
 
     for (int i = 0; i < *numOfCourses; i++)
     {
@@ -40,10 +38,9 @@ student **readCourses(int *numOfCourses, int *numOfStudents, int *numOfQuizes)
         int tempNum = 0;
         char tempLName[51];
 
-        courses[i] = malloc(sizeof(courses) * *numOfStudents);
-
         for (int j = 0; j < *numOfStudents; j++)
         {
+            courses[i] = malloc(sizeof(courses));
             scanf("%s", tempLName);
 
             courses[i][j].lname = malloc(strlen(tempLName) + 1);
@@ -60,7 +57,7 @@ student **readCourses(int *numOfCourses, int *numOfStudents, int *numOfQuizes)
                 scanf("%d", &tempNum);
                 tempTotal += tempNum;
 
-                courses[i][j].quizzes = malloc(sizeof(int) * (*numOfQuizes));
+                courses[i][j].quizzes[k] = malloc(sizeof(int) * *numOfQuizes);
                 courses[i][j].quizzes[k] = tempNum;
             }
             courses[i][j].total = tempTotal;
@@ -81,3 +78,4 @@ void release_memroy(student **student, int numOfCourses, int numOfStudents, int 
     }
     free(student);
 }
+
