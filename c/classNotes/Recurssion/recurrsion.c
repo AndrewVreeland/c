@@ -108,7 +108,7 @@ the chart. You know the TIP rate. The method header would look like the:
 
 void Tip_Chart(int first_val, int last_val)
 {
-    if(!(first_val > last_val))
+    if (!(first_val > last_val))
     {
         printf("On a meal of $%d", first_val);
         printf(" you should tip $%lf\n", first_val * 0.25);
@@ -116,6 +116,7 @@ void Tip_Chart(int first_val, int last_val)
     }
 }
 
+//! LOOK OVER THIS WILL BE ON TEST
 void print_reverse(char string[], int n) //! if you print after recurrsion we wont print till the end
 {
     // if n == 0 return;
@@ -123,4 +124,68 @@ void print_reverse(char string[], int n) //! if you print after recurrsion we wo
     // pr(st, n-1)
 }
 
+// this function here does not work with negatives
+int multiplicitiveRecurssiveFunction(int firstNum, int secondNum)
+{
+    if ((firstNum == 0) || (secondNum == 0))
+    {
+        return 0;
+    }
+    else
+    {
+        return (firstNum + multiplicitiveRecurssiveFunction(firstNum, secondNum - 1));
+    }
+}
 
+int multiplicitiveRecurssiveFunction2(int firstNum, int secondNum)
+{
+    if (secondNum < 0)
+    {
+        return -multiplicitiveRecurssiveFunction2(firstNum, -secondNum);
+    }
+    else if (firstNum < 0)
+    {
+        return -multiplicitiveRecurssiveFunction2(-firstNum, secondNum);
+    }
+    else if ((firstNum == 0) || (secondNum == 0))
+    {
+        return 0;
+    }
+    else
+    {
+        return (firstNum + multiplicitiveRecurssiveFunction(firstNum, secondNum - 1));
+    }
+}
+
+
+convertBinaryRecurssion(int n)
+{
+    if(n = 0)
+    {
+        return 0;
+    }
+    else
+    {
+        convertBinaryRecurssion(n/2);
+        printf("%d", n%2); // this will print the binary from the bottom up
+    }
+
+}
+
+void recurssionTowersOfHanoi(int n, char from_rod, char to_rod, char aux_rod)
+{
+
+    /*
+    Three rods 
+    must move disks from rod 1 to rod 3 
+    you cannot put bigger disk on smaller disk
+    you may only move one disk at a time 
+    */
+
+    if (n ==1 )
+    {
+        printf("move disk 1 from rod %c to rod %c", from_rod, to_rod);
+    }
+    recurssionTowersOfHanoi(n-1, from_rod, aux_rod, to_rod);
+    printf("");
+}
