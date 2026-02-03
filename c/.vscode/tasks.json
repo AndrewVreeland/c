@@ -1,0 +1,19 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build and Run with Files",
+            "type": "shell",
+            "command": "gcc",
+            "args": ["-g", "${file}", "-o", "${fileDirname}/${fileBasenameNoExtension}", "&&", "${fileDirname}/${fileBasenameNoExtension}", "<", "${fileDirname}/in7.txt", ">", "${fileDirname}/out.txt"],
+            "group": "build"
+        },
+        {
+            "label": "Build for Console",
+            "type": "shell",
+            "command": "gcc",
+            "args": ["-g", "${file}", "-o", "${fileDirname}/${fileBasenameNoExtension}"],
+            "group": "build"
+        }
+    ]
+}

@@ -1,0 +1,38 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "1. Run Manual (No Files)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [], // Empty: It waits for you to type in the terminal
+            "preLaunchTask": "Build for Console",
+            "cwd": "${fileDirname}",
+            "MIMode": "gdb",
+            "externalConsole": false
+        },
+        {
+            "name": "2. Run with in7.txt (to Console)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": ["<", "${fileDirname}/in7.txt"], // Input from file, Output to screen
+            "preLaunchTask": "Build for Console",
+            "cwd": "${fileDirname}",
+            "MIMode": "gdb",
+            "externalConsole": false
+        },
+        {
+            "name": "3. Run with in7.txt (to out.txt)",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": ["<", "${fileDirname}/in7.txt", ">", "${fileDirname}/out.txt"],
+            "preLaunchTask": "Build for Console",
+            "cwd": "${fileDirname}",
+            "MIMode": "gdb",
+            "externalConsole": false
+        }
+    ]
+}
