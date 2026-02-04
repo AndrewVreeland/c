@@ -1,0 +1,11 @@
+chair
+14
+food
+20
+hair
+14
+chocolate 
+2
+mush
+3
+DONE
