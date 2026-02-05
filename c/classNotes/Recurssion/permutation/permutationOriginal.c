@@ -4,14 +4,13 @@
 
 #define SIZE 4
 
-void print(int *A, int n, char arr[][50])
+void print(int *A, int n)
 {
 
     for (int i = 0; i < n; i++)
     {
        
             printf("%d", A[i]);
-            printf("%s", arr[A[i]]);
             printf("\n");
         
     }
@@ -21,16 +20,15 @@ int main(void)
 {
     int perm[SIZE] = {0};
     int used[SIZE] = {0};
-    char arr[][50] = {"a", "b", "c", "d"};
-    printperms(perm, used, 0, SIZE, arr);
+    printperms(perm, used, 0, SIZE);
     return 0;
 }
 
-void printperms(int *perm, int *used, int k, int n, char arr[][50])
+void printperms(int *perm, int *used, int k, int n)
 {
     if (k == n)
     {
-        print(perm, n, arr);
+        print(perm, n);
         return;
     }
 
@@ -41,7 +39,7 @@ void printperms(int *perm, int *used, int k, int n, char arr[][50])
             used[i] = 1; // mark that it is used
             perm[k] = i; // transfer i to the perm array at kth
             
-            printperms(perm, used, k + 1, n, arr); // increase k and grow further
+            printperms(perm, used, k + 1, n); // increase k and grow further
 
             used[i] = 0;
         }

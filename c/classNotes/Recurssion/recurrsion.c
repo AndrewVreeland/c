@@ -189,3 +189,19 @@ void recurssionTowersOfHanoi(int n, char from_rod, char to_rod, char aux_rod)
     recurssionTowersOfHanoi(n-1, from_rod, aux_rod, to_rod);
     printf("");
 }
+
+
+int f(int n)
+{
+    int ans;
+    int i;
+    if(n <3)
+    return n;
+    ans = f(n/2);
+    for(i = 0; i <n; i ++)
+    {
+        ans += f(i);
+        return ans;
+    }
+}
+
