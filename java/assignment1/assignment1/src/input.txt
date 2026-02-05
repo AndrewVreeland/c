@@ -1,7 +1,0 @@
-food
-145
-shoe
-142.2578
-T-shirt
-0.45
-DONE
