@@ -23,11 +23,14 @@ typedef struct Rivals
 
 } Rivals;
 
+
 Cat createCat();
-int initializeCats();
+void initializeCats();
 void permutationSetUp(int numOfCats);
 void print(int *perm, int head);
 void permuatate(int *perm, int *used, int head, int chair);
+void setupTeams(int numOfCats, int numOfTeams);
+void populateRivals(int numOfCats);
 
 Rivals *rivals;
 float bestPermScore;
@@ -38,18 +41,61 @@ Cat *cats;
 
 int main(void)
 {
+    int numOfTeams;
+    scanf("%d", &numOfTeams); // populating num teams
 
-    permutationSetUp(3);
+    int numCats = 0;
+    scanf("%d", &numCats);              // poplating num cats int
+    numCats = numCats * numOfTeams;
 
-    printf("dog");
+    initializeCats(numCats); // creates cats
+
+    setupTeams(numCats, numOfTeams); // initializes and fills tracker with base indicies
+
+    populateRivals(numCats);
+
+    for(int i = 0; i < numCats; i++)
+    {
+        printf("%s", cats[i].name);
+    }
 
     return 0;
 }
 
+void setupTeams(int numOfCats, int numOfTeams)
+{
+    int catsPerTeam = numOfCats / numOfTeams; 
+    tracker = malloc(sizeof(*tracker) * numOfTeams);
+    int counter = 0;
+    for (int i = 0; i < numOfTeams; i ++)
+    {
+        tracker[i] = malloc(sizeof(int) * catsPerTeam);
+        for(int j = 0; j < catsPerTeam; j++)
+        {
+            tracker[i][j] = counter;
+            counter++;
+            
+        }
+    }
+
+    for(int i = 0; i < numOfTeams; i++)
+    {
+        for(int ij = 0; ij < catsPerTeam; ij++)
+        {
+
+            printf("%d ", tracker[i][ij]);
+        }
+        printf("\n");
+    }
+
+}
+
 void permutationSetUp(int numOfCats)
 {
+    
     int* perm = calloc(sizeof(int), numOfCats);
     int* used = calloc(sizeof(int), numOfCats);
+
 
     permuatate(perm, used, numOfCats, 0);
 
@@ -82,17 +128,14 @@ void permuatate(int *perm, int *used, int head, int chair)
     }
 }
 
-int initializeCats()
+void initializeCats(int numCats)
 {
-    int numCats = 0;
-
-    scanf("%d", &numCats);                // poplating num cats int
     cats = malloc(sizeof(Cat) * numCats); // creates space for cat array
     for (int i = 0; i < numCats; i++)     // populates a cat at each indicie
     {
         cats[i] = createCat();
     }
-    return numCats;
+
 }
 
 Cat createCat()
@@ -103,15 +146,15 @@ Cat createCat()
     char tempName[MAX_STR + 1];
     scanf("%s", tempName);                  // holds name in temp
     int strLen = strlen(tempName) + 1;      // finds strlen for malloc
-    char *catName = malloc(strLen); // creates percise space for name
-    strcpy(cat.name, catName);              // assigns name to cat struct
+    cat.name = malloc(strLen); // creates percise space for name
+    strcpy(cat.name, tempName);              // assigns name to cat struct
 
     // CAT BREED
     char tempBreed[MAX_STR + 1];             // placeholder for breed
     scanf("%s", tempBreed);                 // saves scanned value into temp
     strLen = strlen(tempBreed) + 1;          // gets string len for malloc
-    char *catBreed = malloc(strLen); // creates space
-    strcpy(cat.breed, catBreed);             // assigns breed to cat struct
+    cat.breed = malloc(strLen); // creates space
+    strcpy(cat.breed, tempBreed);             // assigns breed to cat struct
 
     // SCORE
     int totalScore = 0;
@@ -132,10 +175,12 @@ void populateRivals(int numOfCats)
 
         int numOfRivals = 0;
     scanf("%d", &numOfRivals);
+    printf(" num of rivals --- %d ---\n", numOfRivals);
     rivals = malloc(sizeof(rivals) * numOfRivals); // creating space for array of rivals
 
     char tempRivalName1[MAX_STR];
     char tempRivalName2[MAX_STR];
+
 
     for(int i = 0; i < numOfRivals; i++) // loops through and populates each rival
     {
@@ -146,11 +191,15 @@ void populateRivals(int numOfCats)
             if(strcmp(cats[j].name, tempRivalName1) == 0)
             {
                 rivals[i].cat1 = &cats[j];
+                printf("rival 1 : %s ",   rivals[i].cat1->name);
             }
             else if(strcmp(cats[j].name, tempRivalName2) == 0)
             {
                 rivals[i].cat2 = &cats[j];
+                printf("rival 2 : %s ",   rivals[i].cat2-> name);
+
             }
+            printf("\n ");
         }
     }
 }
