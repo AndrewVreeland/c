@@ -246,3 +246,5 @@ int* arrayFactory(int n)
 
    return manager;
 }
+
+//! values = realloc(values,(numVals+EXTRA)*sizeof(int));

@@ -1,4 +1,4 @@
-3 3 
+3 3
 Coco Ragdoll 85 90 75 80 88   
 Polter Ragdoll 70 85 92 78 81   
 Hana DSH 95 72 80 91 77   
