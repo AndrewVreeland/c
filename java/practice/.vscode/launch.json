@@ -3,17 +3,16 @@
     "configurations": [
         {
             "type": "java",
-            "name": "App",
+            "name": "IsAllDigits",
             "request": "launch",
-            "mainClass": "App",
-            "projectName": "java_40cb111d"
+            "mainClass": "IsAllDigits",
+            "projectName": "practice_e533c1ed"
         },
         {
             "type": "java",
             "name": "Current File",
             "request": "launch",
-            "mainClass": "${file}",
-            "console": "integratedTerminal"
+            "mainClass": "${fileBasenameNoExtension}"
         }
     ]
 }
