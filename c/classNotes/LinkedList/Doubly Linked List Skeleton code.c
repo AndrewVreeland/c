@@ -53,13 +53,13 @@ void display(node* t)
 
 int main()
 {
-	//deckare root appropriately__________ 
 	node *t,del;
 	int ch,ele,v;
 	while(1)
 	{
 		printf("\nMenu: 1. insert at front, 2. insert at end, 3. Delete 4. exit: ");
 	    scanf("%d",&ch);
+		node *root = NULL;
 		if(ch==4)
 		{
 			printf("\nGOOD BYE>>>>\n");

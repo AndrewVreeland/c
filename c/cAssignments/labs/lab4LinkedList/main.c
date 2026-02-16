@@ -129,6 +129,7 @@ int main()
             insertToPlace(root, ele, place);
             display(root);
         }
+
     }
     return 0;
 }
