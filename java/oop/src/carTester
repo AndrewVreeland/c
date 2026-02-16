@@ -1,0 +1,18 @@
+public class carTester {
+    public static void main(String[] args)
+    {
+        Car myCar = new Car();
+        Car yourCar = new Car();
+
+        Car[] arr = new Car[3];
+        arr[0] = myCar;
+        arr[1] = yourCar;
+        arr[2] = new car();
+        for(int i = 0; i < arr.length; i++)
+        {
+            System.out.println(arr[i]);
+
+        }
+        System.out.println(Arrays.toString(arr));
+    }
+}
