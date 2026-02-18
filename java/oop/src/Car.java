@@ -3,6 +3,8 @@ public class Car {
     String brand;
     int year;
     boolean isRunning;
+    private static int count = 0;
+    private int orderNum;
 
     // constructs
     public Car(String theBrand, int theYear)
@@ -10,7 +12,10 @@ public class Car {
         brand = theBrand;
         year = theYear;
         isRunning = false;
+        count ++;
+        orderNum = count;
     }
+
 
     // methods
     public void run()
