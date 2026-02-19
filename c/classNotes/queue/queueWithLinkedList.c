@@ -137,23 +137,30 @@ int enqueue(struct queue *qPtr, int item)
 // was already empty when the dequeue was attempted.
 int dequeue(struct queue *qPtr)
 {
-    if(empty(qPtr))
+    if (empty(qPtr))
     {
         return EMPTY;
     }
-    int returnVal = qPtr -> front->data;
-    node *temp = qPtr ->front;
+    int returnVal = qPtr->front->data;
+    node *temp = qPtr->front;
     qPtr->front = qPtr->front->next;
     free(temp);
-    if(empty(qPtr)) qPtr->back = NULL;
+    if (empty(qPtr))
+        qPtr->back = NULL;
     return returnVal;
-    
-
 }
 // Pre-condition: qPtr points to a valid struct queue.
 // Post-condition: returns true iff the queue pointed to by pPtr is empty.
 int empty(struct queue *qPtr)
 {
+    if (qPtr == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 // Pre-condition: qPtr points to a valid struct queue.
 // Post-condition: if the queue pointed to by qPtr is non-empty, the value
@@ -161,4 +168,11 @@ int empty(struct queue *qPtr)
 // -1 is returned to signify that this queue is empty.
 int peek(struct queue *qPtr)
 {
+    if(qPtr != NULL)
+    {
+        return qPtr ->front;
+    } else 
+    {
+        return -1;
+    }
 }
