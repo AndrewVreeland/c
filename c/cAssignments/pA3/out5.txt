@@ -1,0 +1,10 @@
+Doctor Uno treated BossCat at 0
+Doctor Dos treated MinionA at 5
+Doctor Dos treated MinionB at 15
+Doctor Dos treated MinionC at 25
+Doctor Dos treated MinionD at 35
+Exposed Cats
+MinionD
+MinionC
+MinionB
+MinionA

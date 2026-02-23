@@ -1,0 +1,8 @@
+Doctor Uno treated Paws at 10
+Doctor Dos treated Claws at 15
+Doctor Uno treated Boots at 200
+Doctor Dos treated Socks at 205
+Doctor Uno treated Mittens at 300
+Exposed Cats
+Socks
+Claws

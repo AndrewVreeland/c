@@ -1,0 +1,9 @@
+Doctor Uno treated Alpha at 0
+Doctor Dos treated Bravo at 0
+Doctor Uno treated Charlie at 100
+Doctor Dos treated Delta at 100
+Cannot accomodate Echo
+Cannot accomodate Foxtrot
+Exposed Cats
+Delta
+Bravo

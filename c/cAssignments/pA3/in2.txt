@@ -1,0 +1,7 @@
+0 Garfield 30
+5 Whiskers 45
+10 Felix 20
+15 Tom 60
+20 Sylvester 15
+400 Latecomer 10
+-1

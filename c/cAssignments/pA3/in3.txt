@@ -1,0 +1,7 @@
+0 Alpha 100
+0 Bravo 100
+50 Charlie 300
+60 Delta 350
+450 Echo 40
+470 Foxtrot 20
+-1

@@ -1,0 +1,6 @@
+0 BossCat 400
+5 MinionA 10
+10 MinionB 10
+15 MinionC 10
+20 MinionD 10
+-1

@@ -1,0 +1,6 @@
+10 Paws 20
+15 Claws 20
+200 Boots 15
+205 Socks 15
+300 Mittens 10
+-1
