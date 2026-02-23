@@ -8,24 +8,23 @@ typedef struct CircularQueue
 {
     int *items;
     int front;
-    int rear;
     int capacity;
+    int numOfElements;
 } CircularQueue;
 
 // Method Prototypes
 void enqueue(struct CircularQueue *q, int value);
 int dequeue(struct CircularQueue *q);
 void display(struct CircularQueue *q);
-countElements(struct CircularQueue *queue);
 bool isEmpty(struct CircularQueue *q);
 
 int main()
 {
     struct CircularQueue queue;
-    queue.capacity = SIZE; // Initialize capacity to 5
-    queue.items = (int*)malloc(queue.capacity * sizeof(int)); // Initial allocation
+    queue.capacity = SIZE;                                     // Initialize capacity to 5
+    queue.items = (int *)malloc(queue.capacity * sizeof(int)); // Initial allocation
     queue.front = -1;
-    queue.rear = -1;
+    queue.numOfElements = 0;
 
     int choice, value;
 
@@ -58,71 +57,111 @@ int main()
 
 // --- YOU IMPLEMENT THE LOGIC BELOW ---
 
-void enqueue(struct CircularQueue *queue, int value)
-{
-    int numElements = countElements(queue);
+// void enqueue(struct CircularQueue *queue, int value)
+// {
+//     if (queue == NULL)
+//         return;
 
-    if (numElements == queue->capacity) 
-    {
-        int oldSize = queue->capacity;
-        queue->capacity *= 2;
-        
-        queue->items = (int*)realloc(queue->items, queue->capacity * sizeof(int));
+//     // 1. If Full: Resize and Unwrap
+//     if (queue->numOfElements == queue->capacity)
+//     {
+//         int oldCapacity = queue->capacity;
+//         int newCapacity = oldCapacity * 2;
+//         int *newArr = realloc(queue->items, sizeof(int) * newCapacity);
 
-        // Only move things if we are currently wrapped
-        if (queue->front > queue->rear) 
-        {
-            // Move everything from index 0 up to 'rear' 
-            // to the new section starting at 'oldSize'
-            for (int i = 0; i <= queue->rear; i++) 
-            {
-                queue->items[oldSize + i] = queue->items[i];
-            }
-            
-            // Update the rear to its new location in the expanded space
-            queue->rear = oldSize + queue->rear;
-        }
-    }
+//         if (newArr == NULL)
+//             return;
 
-    // Standard insertion logic
-    if (queue->front == -1) 
-    {
-        queue->front = 0;
-    }
+//         queue->items = newArr;
+//         queue->capacity = newCapacity;
 
-    queue->rear = (queue->rear + 1) % queue->capacity;
-    queue->items[queue->rear] = value;
-}
+//         int i = 0;
+//         while (i < queue->front)
+//         {
+//             queue->items[oldCapacity + i] = queue->items[i];
+//             queue->items[i] = -1;
+//             i++;
+//         }
+//     } // <-- THE RESIZE BLOCK ENDS HERE
+
+//     // 2. If Empty: Initialize front
+//     if (queue->front == -1)
+//     {
+//         queue->front = 0;
+//     }
+
+//     // 3. Standard Insertion
+//     int insertIndex = (queue->front + queue->numOfElements) % queue->capacity;
+//     queue->items[insertIndex] = value;
+//     queue->numOfElements++;
+// }
 
 int dequeue(struct CircularQueue *queue)
 {
-    // Hint: Check isEmpty first, then update q->front
-    return -1;
+    if (queue->numOfElements == 0)
+        return -1;
+
+    int returnVal = queue->items[queue->front];
+    queue->front = (queue->front % queue->capacity) + 1;
+    return returnVal;
 }
 
 void display(struct CircularQueue *queue)
 {
-    // Hint: Use a loop from front to rear
-}
-
-int countElements(struct CircularQueue *queue)
-{
-    // If the queue is empty, count is 0
-    if (queue->front == -1) 
+    printf("front is : %d \n", queue->items[queue->front]);
+    for (int i = 0; i < queue->numOfElements; i++)
     {
-        return 0;
+        int currentIndex = (queue->front + i) % queue->capacity;
+        printf(" %d -> ", queue->items[currentIndex]);
     }
-
-    // Mathematical way to find the distance between two points in a circle
-    return (queue->rear - queue->front + SIZE) % SIZE + 1;
 }
-
 
 bool isEmpty(struct CircularQueue *queue)
 {
-    if(queue == -1)
+    if (queue == NULL)
+        return NULL;
+    if (queue->numOfElements == 0)
     {
         return true;
     }
-    return false;
+    else
+    {
+        return false;
+    }
+}
+
+void enqueue(struct CircularQueue *queue, int value)
+{
+    if (queue == NULL)
+        return;
+
+    if (queue->capacity == queue->numOfElements)
+    {
+        int oldSize = queue->capacity;
+        int newSize = queue->capacity * 2;
+        int *newArr = realloc(queue->items, newSize * sizeof(int));
+        if (newArr == NULL)
+        {
+            return; // failed realloc
+        }
+
+        newArr = queue->items;
+        queue->items = newArr;
+        for (int i = 0; i < queue->front; i++)
+        {
+            if (i < queue->front)
+            {
+                queue->items[i] = queue->items[oldSize + i];
+                queue->items[i] = -1;
+            }
+        }
+    }
+
+    if (queue->front == -1)
+    {
+        queue->front = 0;
+    }
+    int indicie = (queue->front + queue->numOfElements) % queue->capacity;
+    queue->items[indicie] = value;
+    queue ->numOfElements ++;
 }

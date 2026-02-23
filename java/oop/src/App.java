@@ -9,6 +9,15 @@ public class App {
         car.run();
         System.out.println( car.year+" "+ car.brand + " is car running? -> " + car.isRunning);
         car.roar();
+         String string = "nice world we have here";
+         String[] tempStringArr = string.split("");
+        for(int i = 0; i < tempStringArr.length; i ++)
+        {
+            System.out.println(tempStringArr[i]);
+        }
+
+        String newString = String.join("", tempStringArr);
+        System.out.println(newString);
 
     }
 }

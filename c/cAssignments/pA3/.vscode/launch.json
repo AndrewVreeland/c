@@ -1,0 +1,28 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run with in1.txt and out.txt",
+            "type": "cppdbg",
+            "request": "launch",
+            // We call the shell (/bin/bash or cmd) to handle the redirection
+            "program": "/bin/bash", 
+            "args": [
+                "-c",
+                // This builds the command: ./your_program < in1.txt > out.txt
+                "${fileDirname}/${fileBasenameNoExtension} < in1.txt > out.txt"
+            ],
+            "cwd": "${fileDirname}",
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "C/C++: gcc build active file"
+        }
+    ]
+}

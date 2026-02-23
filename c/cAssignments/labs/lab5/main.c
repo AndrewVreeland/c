@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "leak_detector_c.h"
 
 typedef struct node
 {
@@ -65,45 +66,43 @@ int main()
     }
     freeList(nList);
     freeList(pList);
-    printf("\nBye..\n");
+    printf("Bye..\n");
     return 0;
 }
 /* copies a linked list into another */
 void copy(struct node *source, struct node **dest)
 {
-    if(source != NULL)
+    if (source != NULL)
     {
         *dest = malloc(sizeof(node));
-        (*dest)->data = source -> data;
+        (*dest)->data = source->data;
         (*dest)->next = NULL;
-        copy(source ->next, &((*dest)->next));
-
+        copy(source->next, &((*dest)->next));
     }
 }
-node * copy2(node *source)
+node *copy2(node *source)
 {
-    if(source == NULL)
+    if (source == NULL)
     {
         return NULL;
     }
 
-    node * newNode = malloc(sizeof(node));
-    newNode -> data = source ->data;
+    node *newNode = malloc(sizeof(node));
+    newNode->data = source->data;
     newNode->next = copy2(source->next);
     return newNode;
-
 }
 // Recursively inserts item into the LL pointed to by list.
 struct node *insert(struct node *list, int item)
 {
-    if(list || item <= list->data)
+    if (list == NULL || item <= list->data)
     {
-        node * newNode = malloc(sizeof(node));
-        newNode -> data = item;
-        newNode -> next = list;
+        node *newNode = malloc(sizeof(node));
+        newNode->data = item;
+        newNode->next = list;
         return newNode;
     }
-    list ->next = insert(list->next, item);
+    list->next = insert(list->next, item);
     return list;
 }
 // Recursively deletes the first node storing item in the list pointed to
@@ -111,37 +110,37 @@ struct node *insert(struct node *list, int item)
 // of the resulting list is returned.
 struct node *del(struct node *list, int item)
 {
-    if(list == NULL)
+    if (list == NULL)
     {
         return NULL;
     }
-    if(list -> data = item)
+    if (list->data == item)
     {
-        node *rest = list -> next;
+        node *rest = list->next;
         free(list);
         return rest;
     }
-    list -> next = del(list ->next, item);
+    list->next = del(list->next, item);
     return list;
 }
 void print(struct node *list)
 {
-    if(list == NULL)
+    if (list == NULL)
     {
         return;
     }
-    
+
     printf("->%d", list->data);
     print(list->next);
 }
 // Frees each node in the LL pointed to by list.
 void freeList(struct node *list)
 {
-    if(list == NULL)
+    if (list == NULL)
     {
         return;
     }
 
-    freeList(list ->next);
+    freeList(list->next);
     free(list);
 }
