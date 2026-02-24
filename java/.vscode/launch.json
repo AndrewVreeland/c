@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Room",
+            "request": "launch",
+            "mainClass": "dogWater.Room",
+            "projectName": "java_cf5b76f5"
+        },
+        {
+            "type": "java",
+            "name": "practice",
+            "request": "launch",
+            "mainClass": "dogWater.practice",
+            "projectName": "java_cf5b76f5"
+        },
+        {
+            "type": "java",
             "name": "App",
             "request": "launch",
             "mainClass": "App",
