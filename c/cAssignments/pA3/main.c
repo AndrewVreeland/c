@@ -82,6 +82,12 @@ SLLNode **readInfo(int *arraySize, SLLNode **array, int *catCount)
             node->cat->duration = durration;
             array[counter] = node;
             counter++;
+        }else 
+        {   
+            // if not used then free
+            free(name);
+            free(cat);
+            free(node);
         }
         // scans for next time input
         scanf("%d", &timeInput);
@@ -287,7 +293,13 @@ void exposedCats(stack *stack)
     // safety check
     if (stack == NULL)
         return;
-    printf("Exposed Cats\n"); // blanket print
+        if(stack->top){
+            printf("Exposed Cats\n"); // blanket print
+
+        }else if(!stack->top)
+        {
+            printf("No Exposed Cats\n");
+        }
     while (stack->top) // prints the cats in the stack
     {
         printf("%s\n", stack->top->cat->name);
