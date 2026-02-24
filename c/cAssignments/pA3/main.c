@@ -30,164 +30,98 @@ typedef struct stack
 } stack;
 
 Queue *enqueue(Queue *queue, SLLNode *node);
-SLLNode **readInfo(int *arraySize, SLLNode **array, int *catCount);
 void treat(Queue *queue);
 void push(stack *stack, SLLNode *node);
 void pop(stack *stack);
+void insertToPlace(Queue *queue, SLLNode *node);
 SLLNode *dequeue(Queue *queue);
 void exposedCats(stack *stack);
 
-SLLNode **readInfo(int *arraySize, SLLNode **array, int *catCount)
+void prepareInfo(Queue *queue)
 {
+    int timeInput;
 
-    int timeInput = 0;
-    scanf("%d", &timeInput);
-
-    int counter = 0; // tracks the amount of items for array inserts
+    // Read first arrival time
+    if (scanf("%d", &timeInput) != 1 || timeInput == -1)
+    {
+        return;
+    }
 
     while (timeInput != -1)
     {
-        // creating node and cat space
-        SLLNode *node = malloc(sizeof(SLLNode));
-        Cat *cat = malloc(sizeof(Cat));
-
-        // initalizing node
-        node->cat = cat;
-        node->next = NULL;
-
-        // filling cat name
-        char tempName[25];
+        // placeholders 
+        char tempName[26];
         scanf("%s", tempName);
-        int strLen = strlen(tempName) + 1;
-        char *name = malloc(strLen);
-        strcpy(name, tempName);
 
-        // filling cat duration
-        int durration = 0;
-        scanf("%d", &durration);
+        int duration;
+        scanf("%d", &duration);
 
-        // handling realloc
-        if (counter == *arraySize)
+        // only malloc if needed
+        if (duration > 0)
         {
-            int newSize = *arraySize * 2;
-            SLLNode **newArr = realloc(array, sizeof(SLLNode *) * newSize);
-            array = newArr;
-            *arraySize = newSize;
-        }
-        // assinging node to array and incrementing counter
-        if (durration > 0)
-        {
-            node->cat->arrival = timeInput;
-            node->cat->name = name;
-            node->cat->duration = durration;
-            array[counter] = node;
-            counter++;
-        }else 
-        {   
-            // if not used then free
-            free(name);
-            free(cat);
-            free(node);
-        }
-        // scans for next time input
-        scanf("%d", &timeInput);
-    }
-    // reallocs the array to the appropriate size
-    if (counter == *arraySize)
-    {
-        int newSize = (*arraySize) * 2;
-        SLLNode **newArr = realloc(array, sizeof(SLLNode *) * newSize);
-        array = newArr;
-        *arraySize = newSize;
-    }
+            SLLNode *node = malloc(sizeof(SLLNode));
+            Cat *cat = malloc(sizeof(Cat));
 
-    array[counter] = NULL; // setting each indicie to null
-    *catCount = counter; // setting catCount for parent function
-    return array; 
+            // nmae logic
+            int strLen = strlen(tempName) + 1;
+            char *name = malloc(sizeof(char) * strLen);
+            strcpy(name, tempName);
+
+            // Populate cat data
+            cat->arrival = timeInput;
+            cat->name = name;
+            cat->duration = duration;
+            node->cat = cat;
+            node->next = NULL;
+
+            // insertion logic
+            enqueue(queue, node);
+        }
+
+        // Check for next entry
+        if (scanf("%d", &timeInput) != 1)
+            break;
+    }
 }
-
-void prepareInfo(Queue *queue) // filter given array
-{
-    int arraySize = 10; // arbirtatry size
-
-    SLLNode **array = malloc(sizeof(SLLNode *) * arraySize); // array to filter by time
-    int catCount = 0;
-
-    array = readInfo(&arraySize, array, &catCount); // populates array with unfiltered cats
-
-    SLLNode *currentNode;
-    currentNode = queue->head;
-
-    int catsRemaining = catCount;
-    bool canUse = true;
-
-    while (catsRemaining > 0)
-    {
-        int current = -1; // reset the current array indicie
-
-        for (int i = 0; i < catCount; i++)
-        {
-            // reset check variables
-            canUse = true;
-            currentNode = queue->head;
-
-            // filters cats for duplicates
-            while (currentNode)
-            {
-                if (array[i]->cat == currentNode->cat)
-                {
-                    canUse = false;
-                    break; // Found him, no need to keep looking in the queue
-                }
-                currentNode = currentNode->next;
-            }
-
-            if (canUse) // if cat is available is it the best one
-            {
-                // If we don't have a candidate yet, or this one arrives later than our current best
-                if (current == -1 || array[i]->cat->arrival < array[current]->cat->arrival)
-                {
-                    current = i;
-                }
-            }
-        }
-
-        if (current != -1)
-        {
-            enqueue(queue, array[current]); // adds best cat
-        }
-        catsRemaining--; // deincrements cats 
-    }
-    free(array);
-}
-Queue *enqueue(Queue *queue, SLLNode *node)
-{
-    // saftey checks
-    if (queue == NULL)
-        return NULL;
-    if (node == NULL)
-    {
-        return queue;
-    }
-
-    // if empty queue
+Queue *enqueue(Queue *queue, SLLNode *newNode) // insert to place logic Thanks for the catch on the sorting logic Adam
+{ // saftey checks
     if (queue->head == NULL)
     {
-        queue->head = node;
-        queue->tail = node;
-        return queue;
+        queue->head = newNode;
+        queue->tail = newNode;
+        newNode->next = NULL;
+        return;
     }
-    // all other cases
-    queue->tail->next = node;
-    queue->tail = node;
-    queue->tail->next = NULL;
-    return queue;
-}
 
+    // cats arrival time is less than current head
+    if (newNode->cat->arrival < queue->head->cat->arrival)
+    {
+        newNode->next = queue->head;
+        queue->head = newNode;
+        return;
+    }
+
+    // find proper point
+    SLLNode *current = queue->head;
+    while (current->next != NULL && current->next->cat->arrival < newNode->cat->arrival)
+    {
+        current = current->next;
+    }
+
+    // insert
+    newNode->next = current->next;
+    current->next = newNode;
+
+    // update tail if last node
+    if (newNode->next == NULL)
+    {
+        queue->tail = newNode;
+    }
+}
 
 SLLNode *dequeue(Queue *queue)
 {
-    // saftey checks 
+    // saftey checks
     if (queue == NULL)
         return NULL;
     if (queue->head == NULL)
@@ -202,7 +136,7 @@ SLLNode *dequeue(Queue *queue)
         queue->head = NULL;
         queue->tail = NULL;
     }
-    // all others 
+    // all others
     else
     {
         queue->head = queue->head->next;
@@ -214,7 +148,7 @@ SLLNode *dequeue(Queue *queue)
 // ! <arrival_time> <name> <duration>
 void treat(Queue *queue) // sort input
 {
-    if (queue == NULL || queue->head == NULL) // handles empty queue 
+    if (queue == NULL || queue->head == NULL) // handles empty queue
     {
         printf("No Exposed Cats\n");
         return;
@@ -222,7 +156,7 @@ void treat(Queue *queue) // sort input
 
     int dailyTimer = 480; // tracks daily work time
     // dr timers
-    int meetingTimerUno = 0; 
+    int meetingTimerUno = 0;
     int meetingTimerDos = 0;
     int currentTime;
     // dr names
@@ -250,12 +184,12 @@ void treat(Queue *queue) // sort input
         if (meetingTimerUno == 0 && queue->head != NULL) // if the meeting time for uno and head exsists
         {
 
-            if (currentTime >= queue->head->cat->arrival && // checks arrival time so cats are being seen as they arrive and dr is available.
-                currentTime + queue->head->cat->duration <= dailyTimer) // makes sure we dont pass EOD 
+            if (currentTime >= queue->head->cat->arrival &&             // checks arrival time so cats are being seen as they arrive and dr is available.
+                currentTime + queue->head->cat->duration <= dailyTimer) // makes sure we dont pass EOD
             {
 
-                currentUnoCat = dequeue(queue); 
-                meetingTimerUno = currentUnoCat->cat->duration; // sets new meeting timer 
+                currentUnoCat = dequeue(queue);
+                meetingTimerUno = currentUnoCat->cat->duration;                                 // sets new meeting timer
                 printf("Doctor Uno treated %s at %d\n", currentUnoCat->cat->name, currentTime); // require print
                 // clean up unused cat
                 free(currentUnoCat->cat->name);
@@ -264,7 +198,7 @@ void treat(Queue *queue) // sort input
                 currentUnoCat = NULL; // safety check
             }
         }
-        if (meetingTimerDos == 0 && queue->head != NULL) // same logic as abvove 
+        if (meetingTimerDos == 0 && queue->head != NULL) // same logic as abvove
         {
             if (currentTime >= queue->head->cat->arrival &&
                 currentTime + queue->head->cat->duration <= dailyTimer)
@@ -272,7 +206,7 @@ void treat(Queue *queue) // sort input
 
                 currentDosCat = dequeue(queue);
                 meetingTimerDos = currentDosCat->cat->duration;
-                // instead of freeing we push to a stack 
+                // instead of freeing we push to a stack
                 push(stackDos, currentDosCat);
                 printf("Doctor Dos treated %s at %d\n", currentDosCat->cat->name, currentTime);
             }
@@ -286,39 +220,40 @@ void treat(Queue *queue) // sort input
         free(temp->cat);
         free(temp);
     }
-    exposedCats(stackDos); // passes the stack to proccess exposed cats 
+    exposedCats(stackDos); // passes the stack to proccess exposed cats
 }
 void exposedCats(stack *stack)
 {
     // safety check
     if (stack == NULL)
         return;
-        if(stack->top){
-            printf("Exposed Cats\n"); // blanket print
-
-        }else if(!stack->top)
-        {
-            printf("No Exposed Cats\n");
-        }
+    if (stack->top)
+    {
+        printf("Exposed Cats\n"); // blanket print
+    }
+    else if (!stack->top)
+    {
+        printf("No Exposed Cats\n");
+    }
     while (stack->top) // prints the cats in the stack
     {
         printf("%s\n", stack->top->cat->name);
         pop(stack);
     }
-    free(stack); // frees stack 
+    free(stack); // frees stack
 }
 void push(stack *stack, SLLNode *node)
 {
     // saftey check
     if (stack == NULL)
         return;
-    // handles only one node 
+    // handles only one node
     if (stack->top == NULL)
     {
         stack->top = node;
         stack->top->next = NULL;
     }
-    // handles all other cases 
+    // handles all other cases
     else
     {
         node->next = stack->top;
@@ -335,7 +270,7 @@ void pop(stack *stack)
     // tracks saved node as to push the stack on
     SLLNode *savedNode = stack->top;
     stack->top = stack->top->next;
-    // frees saved node once proccessed 
+    // frees saved node once proccessed
     free(savedNode->cat->name);
     free(savedNode->cat);
     free(savedNode);
