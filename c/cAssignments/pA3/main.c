@@ -90,7 +90,7 @@ Queue *enqueue(Queue *queue, SLLNode *newNode) // insert to place logic Thanks f
         queue->head = newNode;
         queue->tail = newNode;
         newNode->next = NULL;
-        return;
+        return queue;
     }
 
     // cats arrival time is less than current head
@@ -98,7 +98,7 @@ Queue *enqueue(Queue *queue, SLLNode *newNode) // insert to place logic Thanks f
     {
         newNode->next = queue->head;
         queue->head = newNode;
-        return;
+        return queue;
     }
 
     // find proper point
