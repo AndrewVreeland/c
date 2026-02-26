@@ -5,8 +5,11 @@
             "name": "Debug with Redirection",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${fileDirname}/${fileBasenameNoExtension}",
-            "args": [],
+            "program": "C:\\Windows\\System32\\cmd.exe",
+            "args": [
+                "/c",
+                "${fileDirname}\\${fileBasenameNoExtension}.exe < in1.txt > out.txt"
+            ],
             "cwd": "${fileDirname}",
             "externalConsole": false,
             "MIMode": "gdb",
@@ -15,11 +18,6 @@
                     "description": "Enable pretty-printing for gdb",
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
-                },
-                {
-                    "description": "Route input and output files",
-                    "text": "set args < in1.txt > out.txt",
-                    "ignoreFailures": false
                 }
             ],
             "preLaunchTask": "C/C++: gcc build active file"

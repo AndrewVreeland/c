@@ -36,6 +36,8 @@ void pop(stack *stack);
 void insertToPlace(Queue *queue, SLLNode *node);
 SLLNode *dequeue(Queue *queue);
 void exposedCats(stack *stack);
+int empty(Queue *queue);
+SLLNode *peek(Queue *queue);
 
 void prepareInfo(Queue *queue)
 {
@@ -49,7 +51,7 @@ void prepareInfo(Queue *queue)
 
     while (timeInput != -1)
     {
-        // placeholders 
+        // placeholders
         char tempName[26];
         scanf("%s", tempName);
 
@@ -84,7 +86,7 @@ void prepareInfo(Queue *queue)
     }
 }
 Queue *enqueue(Queue *queue, SLLNode *newNode) // insert to place logic Thanks for the catch on the sorting logic Adam
-{ // saftey checks
+{                                              // saftey checks
     if (queue->head == NULL)
     {
         queue->head = newNode;
@@ -148,7 +150,7 @@ SLLNode *dequeue(Queue *queue)
 // ! <arrival_time> <name> <duration>
 void treat(Queue *queue) // sort input
 {
-    if (queue == NULL || queue->head == NULL) // handles empty queue
+    if (empty(queue))
     {
         printf("No Exposed Cats\n");
         return;
@@ -181,11 +183,12 @@ void treat(Queue *queue) // sort input
         if (meetingTimerDos > 0)
             meetingTimerDos--;
 
-        if (meetingTimerUno == 0 && queue->head != NULL) // if the meeting time for uno and head exsists
+        if (meetingTimerUno == 0 && !empty(queue)) // if the meeting time for uno and head exsists
         {
+            SLLNode *lookAtCat = peek(queue);
 
-            if (currentTime >= queue->head->cat->arrival &&             // checks arrival time so cats are being seen as they arrive and dr is available.
-                currentTime + queue->head->cat->duration <= dailyTimer) // makes sure we dont pass EOD
+            if (currentTime >= lookAtCat->cat->arrival &&             // checks arrival time so cats are being seen as they arrive and dr is available.
+                currentTime + lookAtCat->cat->duration <= dailyTimer) // makes sure we dont pass EOD
             {
 
                 currentUnoCat = dequeue(queue);
@@ -198,10 +201,11 @@ void treat(Queue *queue) // sort input
                 currentUnoCat = NULL; // safety check
             }
         }
-        if (meetingTimerDos == 0 && queue->head != NULL) // same logic as abvove
+        if (meetingTimerDos == 0 && !empty(queue)) // same logic as abvove
         {
-            if (currentTime >= queue->head->cat->arrival &&
-                currentTime + queue->head->cat->duration <= dailyTimer)
+            SLLNode *lookAtCat = peek(queue);
+            if (currentTime >= lookAtCat->cat->arrival &&
+                currentTime + lookAtCat->cat->duration <= dailyTimer)
             {
 
                 currentDosCat = dequeue(queue);
@@ -212,7 +216,7 @@ void treat(Queue *queue) // sort input
             }
         }
     }
-    while (queue->head) // loops through remeaining cats prints and frees
+    while (!empty(queue)) // loops through remeaining cats prints and frees
     {
         SLLNode *temp = dequeue(queue);
         printf("Cannot accommodate %s\n", temp->cat->name);
@@ -274,6 +278,22 @@ void pop(stack *stack)
     free(savedNode->cat->name);
     free(savedNode->cat);
     free(savedNode);
+}
+int empty(Queue *queue)
+{
+    if (queue == NULL || queue->head == NULL)
+    {
+        return 1;
+    }
+    return 0;
+}
+SLLNode *peek(Queue *queue)
+{
+    if (empty(queue))
+    {
+        return NULL;
+    }
+    return queue->head;
 }
 int main()
 {
