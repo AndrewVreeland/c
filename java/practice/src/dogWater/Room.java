@@ -18,7 +18,7 @@ public class Room {
         // roomNumber = rn; is also possible
         // using the setters are more appropriate
         // so that we won't be adding invalid entries
-        setRoomType(givenRoomType);
+        // setRoomType(givenRoomType);
         // roomType = givenRoomType; is also possible
         occupied = occ;
     }
