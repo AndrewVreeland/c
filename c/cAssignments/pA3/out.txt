@@ -1,0 +1,9 @@
+Doctor Uno treated Garfield at 0
+Doctor Dos treated Whiskers at 5
+Doctor Uno treated Felix at 30
+Doctor Uno treated Tom at 50
+Doctor Dos treated Sylvester at 50
+Doctor Uno treated Latecomer at 400
+Exposed Cats
+Sylvester
+Whiskers

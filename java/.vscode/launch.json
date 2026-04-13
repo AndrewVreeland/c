@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CarDataProccess",
+            "request": "launch",
+            "mainClass": "assignment3.CarDataProccess",
+            "projectName": "assignment3"
+        },
+        {
+            "type": "java",
             "name": "Room",
             "request": "launch",
             "mainClass": "dogWater.Room",

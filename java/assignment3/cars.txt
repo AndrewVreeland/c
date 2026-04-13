@@ -1,0 +1,4 @@
+e Tesla 20000 1
+e Honda 15000 0
+g BMW 25000
+g Buick 10000

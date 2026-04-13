@@ -1,38 +1,85 @@
 #include <stdio.h>
 
-int main() {
+int binarySearch(int arr[], int size, int target);
+int recursiveBinarySearch(int arr[], int size, int target, int left, int right);
+
+int main()
+{
     int arr[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     int arrLen = sizeof(arr) / sizeof(arr[0]);
-    
+
     int left = 0;
     int right = arrLen - 1;
-    int answer = 8;
-    int foundIndex = -1; // -1 indicates the value hasn't been found yet
 
-    // The condition must be <= to check the very last possible element
-    while (left <= right) {
-        int midpoint = left + (right - left) / 2; // Safer way to calculate midpoint
+    int answer = binarySearch(arr, arrLen, 12);
+    printf("answer : %d", answer);
 
-        if (arr[midpoint] == answer) {
-            foundIndex = midpoint;
-            break; // Exit the loop immediately upon finding the value
+    return 0;
+}
+
+int recursiveBinarySearch(int arr[], int size, int target, int left, int right)
+{
+    if (target == (arr[(right + left) / 2]))
+        return (left + right) / 2;
+    if (left >= right)
+        return -1;
+
+    if (target > arr[(right + left) / 2])
+    {
+        left = (right + left) / 2 + 1;
+    }
+
+    if (target < arr[(right + left) / 2])
+    {
+        right = (right + left) / 2 - 1;
+    }
+    return recursiveBinarySearch(arr, size, target, left, right);
+}
+
+int binarySearch(int arr[], int size, int target)
+
+{
+    int left = 0;
+    int right = size - 1;
+
+    while (left <= right)
+    {
+        int midpoint = left + (right - left) / 2;
+
+        if (arr[midpoint] == target)
+        {
+            return midpoint; // Found it!
         }
-        
-        if (arr[midpoint] > answer) {
-            // If the middle value is too high, look in the left half
+
+        if (arr[midpoint] > target)
+        {
             right = midpoint - 1;
-        } else {
-            // If the middle value is too low, look in the right half
+        }
+        else
+        {
             left = midpoint + 1;
         }
     }
 
-    // Final result check after the loop finishes
-    if (foundIndex != -1) {
-        printf("I found the answer and it is : %d at position: %d\n", answer, foundIndex);
-    } else {
-        printf("We did not find the answer sadly\n");
+    return -1; // Not found
+}
+
+int recursiveBinarySearch2(int arr[], int size, int target, int left, int right)
+{
+    if (target == arr[(left + right) / 2])
+        return (left + right) / 2;
+    if (left >= right)
+        return -1;
+
+    if (target > arr[(left + right) / 2])
+    {
+        left = (left + right) / 2 + 1;
     }
 
-    return 0;
+    if (target < arr[(left + right) / 2])
+    {
+        right = (left + right) - 1;
+    }
+
+    return recursiveBinarySearch2(arr, size, target, left, right);
 }

@@ -37,10 +37,6 @@ int priority(char ch);
 int isOperator(char ch);
 char *infixToPostfix(char infix[]);
 int isParentheses(char ch1);
-int main()
-{
-    return 0;
-}
 void initialize(struct stack *stackPtr)
 {
     stackPtr->top = -1;
@@ -103,13 +99,14 @@ int main()
 {
     char inFixExpression[SIZE];
 
-    printf("\n Enter Expression: ");
+    printf("Enter Expression: ");
     scanf("%[^\n]s", inFixExpression);
+    printf("Your input expression: %s\n", inFixExpression);
 
     if (checkBalance(inFixExpression))
     {
-        char *postfixExpression = infixToPostfix(infixToPostfix);
-        printf(" The postfix is %s\n", postfixExpression);
+        char *postfixExpression = infixToPostfix(inFixExpression);
+        printf("The postfix is: %s\n", postfixExpression);
 
         free(postfixExpression);
     }
@@ -120,7 +117,7 @@ int checkBalance(char exp[])
 {
     stack workingStack;
     initialize(&workingStack);
-    printf("\n Checking balance...\n");
+    printf("Checking balance...\n");
     for (int i = 0; exp[i] != '\0'; i++)
     {
         if (exp[i] == '[' || exp[i] == '(' || exp[i] == '{')
@@ -171,7 +168,7 @@ int priority(char ch)
     {
         return 3;
     }
-    else if (ch = '%' || ch == '*' || ch == '/')
+    else if (ch == '%' || ch == '*' || ch == '/')
     {
         return 2;
     }
@@ -220,8 +217,7 @@ char *infixToPostfix(char infix[])
                 postfixIndex++;
             }
             i--;
-            postFixExpression[++postfixIndex] = ' ';
-            postFixExpression++;
+            postFixExpression[postfixIndex++] = ' ';
         }
         else if (isOperator(infix[i]))
         {
@@ -229,7 +225,7 @@ char *infixToPostfix(char infix[])
             {
                 push(&workingStack, infix[i]);
             }
-            else if (priority(infix[i]) > priority(pee(&workingStack)))
+            else if (priority(infix[i]) > priority(peek(&workingStack)))
             {
                 push(&workingStack, infix[i]);
             }
@@ -237,7 +233,7 @@ char *infixToPostfix(char infix[])
             {
                 while (!empty(&workingStack) && priority(infix[i]) <= priority(peek(&workingStack)) && !isParentheses(peek(&workingStack)))
                 {
-                    postFixExpression[postfixIndex++] == pop(&workingStack);
+                    postFixExpression[postfixIndex++] = pop(&workingStack);
                     postFixExpression[postfixIndex++] = ' ';
                 }
                 push(&workingStack, infix[i]);
@@ -260,19 +256,19 @@ char *infixToPostfix(char infix[])
             }
         }
 
-        // TODO check this code here 
-        while (peek(&workingStack) != 'I')
-        {
-            postFixExpression[postfixIndex++] = pop(&workingStack);
-            if(peek(&workingStack) != 'I')
-            {
-                postFixExpression[postfixIndex++] = ' ';
-            }
-        }
-        postFixExpression[postfixIndex] = '\0';
-
-        return postFixExpression;
     }
+    // TODO check this code here 
+    while (peek(&workingStack) != -1)
+    {
+        postFixExpression[postfixIndex++] = pop(&workingStack);
+        if(peek(&workingStack) != 'I')
+        {
+            postFixExpression[postfixIndex++] = ' ';
+        }
+    }
+    postFixExpression[postfixIndex] = '\0';
+
+    return postFixExpression;
 }
 
 int isParentheses(char ch)
